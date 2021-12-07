@@ -154,11 +154,11 @@ main(int argc, char *argv[])
 				optarg[len] = '\0';
 				fsoptions.freeblockpc =
 				    strsuftoll("free block percentage",
-					optarg, 0, 99);
+					optarg, 0LL, 99);
 			} else {
 				fsoptions.freeblocks =
 				    strsuftoll("free blocks",
-					optarg, 0, LLONG_MAX);
+					optarg, 0LL, LLONG_MAX);
 			}
 			break;
 
