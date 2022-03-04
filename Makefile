@@ -1,6 +1,7 @@
 #	$NetBSD: Makefile,v 1.36 2013/08/05 14:41:57 reinoud Exp $
 #
-
+CFLAGS=`pkg-config --cflags libbsd-overlay`
+LDFLAGS=`pkg-config --libs libbsd-overlay`
 WARNS?=	5
 
 # .include <bsd.own.mk>
@@ -10,6 +11,7 @@ SRCS=	udf.c strstuff.c \
 	makefs.c \
 	walk.c
 MAN=	makefs.8
+CC=	clang
 
 MKNODSRC=	${NETBSDSRCDIR}/sbin/mknod
 MTREESRC=	${NETBSDSRCDIR}/usr.sbin/mtree
@@ -32,7 +34,7 @@ LDADD+= -lutil
 #endif
 
 prog:
-	${CC} -o $(PROG) $(SRCS) -I./udf
+	${CC} -o $(PROG) $(SRCS) $(LDFLAGS) $(CFLAGS) -I./udf
 
 #.include <bsd.prog.mk>
 # DO NOT DELETE
