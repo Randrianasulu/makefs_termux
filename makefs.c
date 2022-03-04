@@ -93,6 +93,7 @@ u_int		debug;
 struct timespec	start_time;
 
 static	fstype_t *get_fstype(const char *);
+#define __dead __attribute__((__dead__)) 
 static	void	usage(fstype_t *, fsinfo_t *) __dead;
 
 int
