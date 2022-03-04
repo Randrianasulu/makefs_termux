@@ -509,6 +509,7 @@ apply_specdir(const char *dir, NODE *specnode, fsnode *dirnode, int speconly)
 				NODETEST(curnode->flags & F_DEV,
 				    "device number");
 #undef NODETEST
+#define HAVE_STRUCT_STAT_ST_MTIMENSEC 0
 
 			if (debug & DEBUG_APPLY_SPECFILE)
 				printf("apply_specdir: adding %s\n",
