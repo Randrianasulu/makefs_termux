@@ -30,7 +30,7 @@
 #endif
 
 #include <sys/cdefs.h>
-__RCSID("$NetBSD: udf.c,v 1.25 2022/04/09 10:05:35 riastradh Exp $");
+//__RCSID("$NetBSD: udf.c,v 1.25 2022/04/09 10:05:35 riastradh Exp $");
 
 #include <stdio.h>
 #include <stdlib.h>

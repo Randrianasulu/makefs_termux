@@ -61,7 +61,7 @@
  */
 
 #include <sys/cdefs.h>
-__FBSDID("$FreeBSD: head/lib/libnetbsd/strsuftoll.c 244557 2012-12-21 20:37:38Z brooks $");
+//__FBSDID("$FreeBSD: head/lib/libnetbsd/strsuftoll.c 244557 2012-12-21 20:37:38Z brooks $");
 
 #include <sys/types.h>
 #include <sys/time.h>

@@ -30,7 +30,7 @@
  */
 
 #ifndef _UTIL_H_
-#define	_UTIL_H_
+#define _UTIL_H_
 
 #include <sys/cdefs.h>
 #include <sys/types.h>
@@ -48,7 +48,7 @@ typedef _BSD_SIZE_T_    size_t;
  
 #if defined(_POSIX_C_SOURCE)
 #ifndef __VA_LIST_DECLARED
-typedef __va_list va_list;
+//typedef __va_list va_list;
 #define __VA_LIST_DECLARED
 #endif
 #endif
@@ -84,7 +84,8 @@ const char     *getdiskcookedname(char *, size_t, const char *);
 const char     *getfstypename(int);
 const char     *getfsspecname(char *, size_t, const char *);
 struct kinfo_vmentry *kinfo_getvmmap(pid_t, size_t *);
-#ifndef __LIBC12_SOURCE__
+#if 0
+//#ifndef __LIBC12_SOURCE__
 void		login(const struct utmp *) __RENAME(__login50);
 void		loginx(const struct utmpx *) __RENAME(__loginx50);
 #endif
@@ -98,7 +99,8 @@ int		opendisk1(const char *, int, char *, size_t, int,
 			  int (*)(const char *, int, ...));
 int		openpty(int *, int *, char *, struct termios *,
     struct winsize *);
-#ifndef __LIBC12_SOURCE__
+#if 0
+//#ifndef __LIBC12_SOURCE__
 time_t		parsedate(const char *, const time_t *, const int *)
     __RENAME(__parsedate50);
 #endif
@@ -108,16 +110,18 @@ pid_t		pidfile_read(const char *);
 int		pidfile_clean(void);
 int		pidlock(const char *, int, pid_t *, const char *);
 int		pw_abort(void);
-#ifndef __LIBC12_SOURCE__
+#if 0
+//#ifndef __LIBC12_SOURCE__
 void		pw_copy(int, int, struct passwd *, struct passwd *)
     __RENAME(__pw_copy50);
 int		pw_copyx(int, int, struct passwd *, struct passwd *,
     char *, size_t) __RENAME(__pw_copyx50);
 #endif
 void		pw_edit(int, const char *);
-__dead void	pw_error(const char *, int, int);
+//__dead void	pw_error(const char *, int, int);
 void		pw_getconf(char *, size_t, const char *, const char *);
-#ifndef __LIBC12_SOURCE__
+#if 0
+//#ifndef __LIBC12_SOURCE__
 void		pw_getpwconf(char *, size_t, const struct passwd *,
     const char *) __RENAME(__pw_getpwconf50);
 #endif
@@ -158,10 +162,10 @@ void 		*emalloc(size_t);
 void 		*erealloc(void *, size_t);
 void 		ereallocarr(void *, size_t, size_t);
 struct __sFILE	*efopen(const char *, const char *);
-int	 	easprintf(char ** __restrict, const char * __restrict, ...)
-			__printflike(2, 3);
-int		evasprintf(char ** __restrict, const char * __restrict,
-    __va_list) __printflike(2, 0);
+//int	 	easprintf(char ** __restrict, const char * __restrict, ...)
+//			__printflike(2, 3);
+//int		evasprintf(char ** __restrict, const char * __restrict,
+//    __va_list) __printflike(2, 0);
 __END_DECLS
 
 #endif /* !_UTIL_H_ */
