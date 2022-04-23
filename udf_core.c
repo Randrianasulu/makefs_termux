@@ -30,7 +30,7 @@
 #endif
 
 #include <sys/cdefs.h>
-//__RCSID("$NetBSD: udf_core.c,v 1.2 2022/04/09 09:58:11 riastradh Exp $");
+__RCSID("$NetBSD: udf_core.c,v 1.2 2022/04/09 09:58:11 riastradh Exp $");
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -2025,7 +2025,7 @@ udf_fidsize(struct fileid_desc *fid)
 	if (udf_rw16(fid->tag.id) != TAGID_FID)
 		errx(1, "internal error, bad tag in %s", __func__);
 
-	size = UDF_FID_SIZE + udf_rw16(fid->l_fi) + udf_rw16(fid->l_iu);
+	size = UDF_FID_SIZE + fid->l_fi + udf_rw16(fid->l_iu);
 	size = (size + 3) & ~3;
 
 	return size;
@@ -2270,11 +2270,11 @@ udf_extattr_search_intern(union dscrptr *dscr,
 		if ((a_l == 0) || (a_l > l_ea))
 			return EINVAL;
 
-		if (attrhdr->type != sattr)
+		if (udf_rw32(attrhdr->type) != sattr)
 			goto next_attribute;
 
 		/* we might have found it! */
-		if (attrhdr->type < 2048) {	/* Ecma-167 attribute */
+		if (udf_rw32(attrhdr->type < 2048)) {	/* Ecma-167 attribute */
 			*offsetp = offset;
 			*lengthp = a_l;
 			return 0;		/* success */
@@ -3848,10 +3848,6 @@ udf_writeout_writequeue(bool complete)
 					"could indicate bad disc");
 		}
 	}
-#define	TAILQ_FOREACH_SAFE(var, head, field, tvar)			\
-		for ((var) = TAILQ_FIRST((head));				\
-		    (var) && ((tvar) = TAILQ_NEXT((var), field), 1);		\
-		    (var) = (tvar))
 
 	/* removing completed packets */
 	TAILQ_FOREACH_SAFE(packet, &write_queue, next, next_packet) {
