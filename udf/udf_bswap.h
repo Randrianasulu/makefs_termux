@@ -30,7 +30,7 @@
 #ifndef _FS_UDF_UDF_BSWAP_H_
 #define _FS_UDF_UDF_BSWAP_H_
 
-#include <sys/endian.h>
+#include <endian.h>
 // #include <machine/bswap.h>
 // #include <sys/bswap.h>
 

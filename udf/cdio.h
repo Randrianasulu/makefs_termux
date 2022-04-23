@@ -3,7 +3,7 @@
 #ifndef _SYS_CDIO_H_
 #define _SYS_CDIO_H_
 
-#include  <sys/endian.h>
+#include  <endian.h>
 
 // #include <sys/ioccom.h>
 

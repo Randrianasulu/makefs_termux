@@ -9,7 +9,6 @@
 #define _FS_UDF_OSTA_H_
 
 #include <sys/types.h>
-#include <stdint.h>
 
 #ifndef _KERNEL
 #include <stdbool.h>

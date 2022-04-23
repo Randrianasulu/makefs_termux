@@ -66,10 +66,8 @@
  * Routines for handling Unicode encoded in UTF-8 form, code derived from
  * src/lib/libc/locale/utf2.c.
  */
-
-#define __unused __attribute__((__unused__)) 
-static u_int16_t wget_utf8(const char **, size_t *) __unused;
-static int wput_utf8(char *, size_t, u_int16_t) __unused;
+static u_int16_t wget_utf8(const char **, size_t *);
+static int wput_utf8(char *, size_t, u_int16_t);
 
 /*
  * Read one UTF8-encoded character off the string, shift the string pointer
