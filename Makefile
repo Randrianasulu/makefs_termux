@@ -11,7 +11,7 @@ SRCS=	udf.c strstuff.c \
 	makefs.c \
 	walk.c
 MAN=	makefs.8
-CC=	clang
+#CC=	clang
 
 MKNODSRC=	${NETBSDSRCDIR}/sbin/mknod
 MTREESRC=	${NETBSDSRCDIR}/usr.sbin/mtree
@@ -34,7 +34,7 @@ LDADD+= -lutil -lm
 #endif
 
 prog:
-	${CC} -o $(PROG) $(SRCS) $(LDFLAGS) -lm -I./udf
+	${CC} -o $(PROG) $(SRCS) $(LDFLAGS) -D_GNU_SOURCE -std=c11 -lm -I./udf
 
 #.include <bsd.prog.mk>
 # DO NOT DELETE
