@@ -1,5 +1,4 @@
-/* $NetBSD: udf_core.c,v 1.2 2022/04/09 09:58:11 riastradh Exp $ */
-
+/* $NetBSD: udf_core.c,v 1.9 2022/04/26 15:11:42 reinoud Exp $ */
 /*
  * Copyright (c) 2006, 2008, 2021, 2022 Reinoud Zandijk
  * All rights reserved.
@@ -30,7 +29,8 @@
 #endif
 
 #include <sys/cdefs.h>
-//__RCSID("$NetBSD: udf_core.c,v 1.2 2022/04/09 09:58:11 riastradh Exp $");
+//__RCSID("$NetBSD: udf_core.c,v 1.9 2022/04/26 15:11:42 reinoud Exp $");
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -1207,7 +1207,7 @@ udf_create_base_logical_dscr(void)
 
 	/* just one fsd for now */
 	lvd->lv_fsd_loc.len = udf_rw32(sector_size);
-	lvd->lv_fsd_loc.loc.part_num = udf_rw32(context.metadata_part);
+	lvd->lv_fsd_loc.loc.part_num = udf_rw16(context.metadata_part);
 	lvd->lv_fsd_loc.loc.lb_num   = udf_rw32(layout.fsd);
 
 	crclen  = sizeof(struct logvol_desc) - 1 - UDF_DESC_TAG_LENGTH;
@@ -2274,7 +2274,7 @@ udf_extattr_search_intern(union dscrptr *dscr,
 			goto next_attribute;
 
 		/* we might have found it! */
-		if (udf_rw32(attrhdr->type < 2048)) {	/* Ecma-167 attribute */
+		if (udf_rw32(attrhdr->type) < 2048) {	/* Ecma-167 attribute */
 			*offsetp = offset;
 			*lengthp = a_l;
 			return 0;		/* success */
@@ -2470,7 +2470,7 @@ udf_create_new_fe(struct file_entry **fep, int file_type, struct stat *st)
 		fe->uid  = udf_rw32(st->st_uid);
 		fe->gid  = udf_rw32(st->st_gid);
 
-		fe->perm = unix_mode_to_udf_perm(st->st_mode);
+		fe->perm = udf_rw32(unix_mode_to_udf_perm(st->st_mode));
 
 		icbflags = udf_rw16(fe->icbtag.flags);
 		icbflags &= ~UDF_ICB_TAG_FLAGS_SETUID;
@@ -2572,7 +2572,7 @@ udf_create_new_efe(struct extfile_entry **efep, int file_type, struct stat *st)
 		efe->uid = udf_rw32(st->st_uid);
 		efe->gid = udf_rw32(st->st_gid);
 
-		efe->perm = unix_mode_to_udf_perm(st->st_mode);
+		efe->perm = udf_rw32(unix_mode_to_udf_perm(st->st_mode));
 
 		icbflags = udf_rw16(efe->icbtag.flags);
 		icbflags &= ~UDF_ICB_TAG_FLAGS_SETUID;
@@ -2928,7 +2928,7 @@ udf_create_VAT(union dscrptr **vat_dscr, struct long_ad *vatdata_loc)
 		bpos = ((uint8_t *) implext->data) + 4;
 		vatlvext = (struct vatlvext_extattr_entry *) bpos;
 
-		vatlvext->unique_id_chk = udf_rw64(fe->unique_id);
+		vatlvext->unique_id_chk = fe->unique_id;
 		vatlvext->num_files = udf_rw32(context.num_files);
 		vatlvext->num_directories = udf_rw32(context.num_directories);
 		memcpy(vatlvext->logvol_id, context.logical_vol->logvol_id,128);
@@ -2950,7 +2950,7 @@ udf_create_VAT(union dscrptr **vat_dscr, struct long_ad *vatdata_loc)
 		fe->l_ad      = udf_rw32(sizeof(struct long_ad));
 		blks = UDF_ROUNDUP(inf_len, context.sector_size) /
 			context.sector_size;
-		fe->logblks_rec = udf_rw32(blks);
+		fe->logblks_rec = udf_rw64(blks);
 
 		/* update vat descriptor's CRC length */
 		vat_len  = sizeof(struct file_entry) - 1 - UDF_DESC_TAG_LENGTH;
@@ -3012,7 +3012,7 @@ udf_create_VAT(union dscrptr **vat_dscr, struct long_ad *vatdata_loc)
 		fe->l_ad        = udf_rw32(sizeof(struct long_ad));
 		blks = UDF_ROUNDUP(inf_len, context.sector_size) /
 			context.sector_size;
-		fe->logblks_rec = udf_rw32(blks);
+		fe->logblks_rec = udf_rw64(blks);
 
 		vat_len  = sizeof(struct file_entry)-1 - UDF_DESC_TAG_LENGTH;
 		vat_len += udf_rw32(fe->l_ad) + udf_rw32(fe->l_ea);

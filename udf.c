@@ -506,7 +506,7 @@ udf_append_file_mapping(union dscrptr *dscr, struct long_ad *piece)
 	if (udf_rw16(dscr->tag.id) == TAGID_FENTRY) {
 		fe          = &dscr->fe;
 		data        = fe->data;
-		l_ea        = fe->l_ea;
+		l_ea        = udf_rw32(fe->l_ea);
 		l_ad        = udf_rw32(fe->l_ad);
 		icb         = &fe->icbtag;
 		inf_len     = udf_rw64(fe->inf_len);
@@ -515,7 +515,7 @@ udf_append_file_mapping(union dscrptr *dscr, struct long_ad *piece)
 	} else if (udf_rw16(dscr->tag.id) == TAGID_EXTFENTRY) {
 		efe         = &dscr->efe;
 		data        = efe->data;
-		l_ea        = efe->l_ea;
+		l_ea        = udf_rw32(efe->l_ea);
 		l_ad        = udf_rw32(efe->l_ad);
 		icb         = &efe->icbtag;
 		inf_len     = udf_rw64(efe->inf_len);
@@ -667,13 +667,13 @@ udf_create_new_file(struct stat *st, union dscrptr **dscr,
 		if (error)
 			errx(error, "can't create fe");
 		*dscr = (union dscrptr *) fe;
-		icb->longad_uniqueid = fe->unique_id;
+		icb->longad_uniqueid = udf_rw32(udf_rw64(fe->unique_id));
 	} else {
 		error = udf_create_new_efe(&efe, filetype, st);
 		if (error)
 			errx(error, "can't create fe");
 		*dscr = (union dscrptr *) efe;
-		icb->longad_uniqueid = efe->unique_id;
+		icb->longad_uniqueid = udf_rw32(udf_rw64(efe->unique_id));
 	}
 
 	return 0;
