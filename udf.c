@@ -831,7 +831,7 @@ udf_copy_file(struct stat *st, char *path, fsnode *cur, struct fileid_desc *fid,
 	sz = fnode->st.st_size;
 
 	chunk = MIN(sz, UDF_MAX_CHUNK_SIZE);
-	data = malloc(MAX(chunk, context.sector_size));
+	data = malloc(MAX(UDF_ROUNDUP(chunk, context.sector_size), context.sector_size));
 	assert(data);
 
 	intern = (udf_datablocks(chunk) == 0);
