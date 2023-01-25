@@ -424,7 +424,7 @@ usage(fstype_t *fstype, fsinfo_t *fsoptions)
 "\t[-F mtree-specfile] [-f free-files] [-M minimum-size] [-m maximum-size]\n"
 "\t[-N userdb-dir] [-O offset] [-o fs-options] [-S sector-size]\n"
 "\t[-s image-size] [-t fs-type] image-file directory [extra-directory ...]\n",
-	    prog);
+	    "");
 
 	if (fstype) {
 		size_t i;
