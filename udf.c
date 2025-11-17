@@ -1144,7 +1144,7 @@ udf_enumerate_and_estimate(const char *dir, fsnode *root, fsinfo_t *fsopts,
 	if (fsopts->size) {
 		if (fsopts->size < proposed_size)
 //			errx(1, "makefs_udf: won't fit on disc!");
-			printf("makefs_udf: May not fit on disk! \n");
+			warnx("makefs_udf: May not fit on disk!");
 			fsopts->size = proposed_size;
 	} else {
 		fsopts->size = proposed_size;
