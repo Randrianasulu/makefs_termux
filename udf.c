@@ -1131,13 +1131,21 @@ udf_enumerate_and_estimate(const char *dir, fsnode *root, fsinfo_t *fsopts,
 		nblk += n - nblk;
 	}
 	proposed_size = (off_t) nblk * fsopts->sectorsize;
+#if 0
+	printf("proposed size = %u \n ", proposed_size);
+	printf("Sector size: %i \n", fsopts->sectorsize);
+    	printf("Size: %u \n", fsopts->size);
+        printf("Nblk, %u \n", nblk);
+#endif
 	/* sanity size */
 	if (proposed_size < 512*1024)
 		proposed_size = 512*1024;
 
 	if (fsopts->size) {
 		if (fsopts->size < proposed_size)
-			errx(1, "makefs_udf: won't fit on disc!");
+//			errx(1, "makefs_udf: won't fit on disc!");
+			printf("makefs_udf: May not fit on disk! \n");
+			fsopts->size = proposed_size;
 	} else {
 		fsopts->size = proposed_size;
 	}
